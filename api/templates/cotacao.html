@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,25 +22,31 @@
         <h1>Cotação do Dólar</h1>
     </div>
     <div id="container"></div>
+    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script>
-    Highcharts.chart('container', {
-        title: {
-            text: 'Cotação do Dólar x ' + '{{ name }}'
-        },
-        xAxis: {
-            categories: {{ dates|safe }}
-        },
-        yAxis: {
-            title: {
-                text: 'Valor (' + '{{ symbol }}' + ')'
-            }
-        },
-        series: [{
-            name: 'Dólar',
-            data: {{ values|safe }},
-            color: 'red'
-        }]
-    });
+        function createChart(containerId, titleText, xAxisCategories, yAxisTitleText, seriesData, seriesColor) {
+            Highcharts.chart(containerId, {
+                title: {
+                    text: titleText
+                },
+                xAxis: {
+                    categories: xAxisCategories
+                },
+                yAxis: {
+                    title: {
+                        text: yAxisTitleText
+                    }
+                },
+                series: [{
+                    name: 'Dólar',
+                    data: seriesData,
+                    color: seriesColor
+                }]
+            });
+        }
+
+        createChart('container', 'Cotação - Dollar x ' + '{{ name }}', {{ dates|safe }}, 'Valor (' + '{{ symbol }}' + ')', {{ values|safe }}, 'red');
     </script>
 </body>
 </html>
