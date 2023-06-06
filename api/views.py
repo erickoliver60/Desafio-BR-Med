@@ -50,10 +50,10 @@ class ExchangeRateView(View):
 
     def get_cotacao(self):
         if self.currency and self.currency.upper() not in ['BRL', 'EUR', 'JPY']:
-            return self._render_error("Erro: currency inválida")
+            return self._render_error("Erro: currency inválida", status=400)
 
         if self._is_invalid_date():
-            return self._render_error("Erro: a data final é maior que a data inicial.")
+            return self._render_error("Erro: a data final é maior que a data inicial.", status=422)
 
         dates = DateGenerator.generate_dates(self.start_date, self.end_date)
 
@@ -74,8 +74,8 @@ class ExchangeRateView(View):
 
         return start_date > end_date or start_date > self.today or end_date > self.today
 
-    def _render_error(self, message):
-        return render(self.request, 'error.html', {'error_message': message})
+    def _render_error(self, message, status=200):
+        return render(self.request, 'error.html', {'error_message': message}, status=status)
 
     def _get_exchange_rates(self, dates):
         results = []
