@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cotação do Dólar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            min-width: 310px;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto
+        }
+    </style>
+    <div class="header">
+        <h1>Cotação do Dólar</h1>
+    </div>
+    <div id="container"></div>
+    <script>
+    Highcharts.chart('container', {
+        title: {
+            text: 'Cotação do Dólar x ' + '{{ name }}'
+        },
+        xAxis: {
+            categories: {{ dates|safe }}
+        },
+        yAxis: {
+            title: {
+                text: 'Valor (' + '{{ symbol }}' + ')'
+            }
+        },
+        series: [{
+            name: 'Dólar',
+            data: {{ values|safe }},
+            color: 'red'
+        }]
+    });
+    </script>
+</body>
+</html>
