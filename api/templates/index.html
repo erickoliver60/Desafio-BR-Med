@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cotação do Dólar</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="header">
+        <h1>Cotação do Dólar</h1>
+    </div>
+    <form id="cotacaoForm">
+        <div class="form-group">
+            <label for="currency">Moeda:</label>
+            <select id="currency" name="currency">
+                <option value="BRL">Real Brasileiro (R$)</option>
+                <option value="EUR">Euro (€)</option>
+                <option value="JPY">Iene Japonês (¥)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Tipo de período:</label><br>
+            <label>
+                <input type="radio" name="period" value="day" onclick="toggleDateFields(true)">
+                Dia
+            </label>
+            <label>
+                <input type="radio" name="period" value="range" onclick="toggleDateFields(false)">
+                Intervalo de Dias
+            </label>
+        </div>
+        <div class="form-group" id="singleDateGroup">
+            <label for="date">Data:</label>
+            <input type="date" id="date" name="date">
+        </div>
+        <div class="form-group" id="dateRangeGroup" style="display: none;">
+            <label for="startDate">Data Inicial:</label>
+            <input type="date" id="startDate" name="startDate">
+            <label for="endDate">Data Final:</label>
+            <input type="date" id="endDate" name="endDate">
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="submitForm()">Cotação!</button>
+        </div>
+    </form>
+    <script>
+        function toggleDateFields(isSingleDate) {
+            var singleDateGroup = document.getElementById("singleDateGroup");
+            var dateRangeGroup = document.getElementById("dateRangeGroup");
+
+            if (isSingleDate) {
+                singleDateGroup.style.display = "block";
+                dateRangeGroup.style.display = "none";
+            } else {
+                singleDateGroup.style.display = "none";
+                dateRangeGroup.style.display = "block";
+            }
+        }
+
+        function submitForm() {
+            var currency = document.getElementById("currency").value;
+            var isSingleDate = document.querySelector('input[name="period"][value="day"]').checked;
+            var startDate = "";
+            var endDate = "";
+
+            if (isSingleDate) {
+                startDate = document.getElementById("date").value;
+            } else {
+                startDate = document.getElementById("startDate").value;
+                endDate = document.getElementById("endDate").value;
+            }
+
+            if (currency && ((isSingleDate && startDate) || (!isSingleDate && startDate && endDate))) {
+                var url = "/cotacao/" + currency + "/" + startDate + "/" + endDate + "/";
+                window.location.href = url;
+            }
+        }
+    </script>
+</body>
+</html>
