@@ -22,7 +22,7 @@
         <div class="form-group">
             <label>Tipo de período:</label><br>
             <label>
-                <input type="radio" name="period" value="day" onclick="toggleDateFields(true)">
+                <input type="radio" name="period" value="day" onclick="toggleDateFields(true)" checked>
                 Dia
             </label>
             <label>
@@ -71,7 +71,10 @@
                 endDate = document.getElementById("endDate").value;
             }
 
-            if (currency && ((isSingleDate && startDate) || (!isSingleDate && startDate && endDate))) {
+            if (currency && isSingleDate && startDate) {
+                var url = "/cotacao/" + currency + "/" + startDate + "/";
+                window.location.href = url;
+            } else if (currency && !isSingleDate && startDate && endDate) {
                 var url = "/cotacao/" + currency + "/" + startDate + "/" + endDate + "/";
                 window.location.href = url;
             }
