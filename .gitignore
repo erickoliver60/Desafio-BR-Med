@@ -1,0 +1,8 @@
+# dependencies
+/venv
+
+# testing
+/coverage
+
+# production
+/build
