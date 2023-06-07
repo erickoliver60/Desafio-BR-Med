@@ -5,7 +5,7 @@ from .views import IndexView, ExchangeRateView, StoredExchangeRateView
 
 urlpatterns = [
     path(
-        'cotacao/',
+        '',
         IndexView.as_view(),
         name='index'
     ),
