@@ -16,7 +16,8 @@ form {
     background-color: #f0f0f0;
 }
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    margin-top: 25px;
 }
 .form-group label {
     display: block;

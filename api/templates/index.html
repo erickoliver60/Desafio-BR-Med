@@ -21,14 +21,16 @@
         </div>
         <div class="form-group">
             <label>Tipo de período:</label><br>
-            <label>
-                <input type="radio" name="period" value="day" onclick="toggleDateFields(true)" checked>
-                Dia
-            </label>
-            <label>
-                <input type="radio" name="period" value="range" onclick="toggleDateFields(false)">
-                Intervalo de Dias
-            </label>
+            <div style="display: flex; justify-content: space-between;">
+                <label>
+                    Dia Único
+                    <input type="radio" name="period" value="day" onclick="toggleDateFields(true)" checked>
+                </label>
+                <label>
+                    Intervalo de Dias
+                    <input type="radio" name="period" value="range" onclick="toggleDateFields(false)">
+                </label>
+            </div>
         </div>
         <div class="form-group" id="singleDateGroup">
             <label for="date">Data:</label>
@@ -39,6 +41,18 @@
             <input type="date" id="startDate" name="startDate">
             <label for="endDate">Data Final:</label>
             <input type="date" id="endDate" name="endDate">
+        </div>
+        <div class="form-group">
+            <label>Onde Consultar:</label><br>
+            <div style="display: flex; justify-content: space-between;">
+            <label>
+                API
+                <input type="radio" name="source" value="api" checked>
+            </label>
+            <label>
+                Banco de Dados
+                <input type="radio" name="source" value="db">
+            </label>
         </div>
         <div class="form-group">
             <button type="button" onclick="submitForm()">Cotação!</button>
@@ -61,6 +75,7 @@
         function submitForm() {
             var currency = document.getElementById("currency").value;
             var isSingleDate = document.querySelector('input[name="period"][value="day"]').checked;
+            var source = document.querySelector('input[name="source"]:checked').value;
             var startDate = "";
             var endDate = "";
 
@@ -72,10 +87,10 @@
             }
 
             if (currency && isSingleDate && startDate) {
-                var url = "/cotacao/" + currency + "/" + startDate + "/";
+                var url = "/" + (source === "api" ? "cotacao" : "cotacao-armazenada") + "/" + currency + "/" + startDate + "/";
                 window.location.href = url;
             } else if (currency && !isSingleDate && startDate && endDate) {
-                var url = "/cotacao/" + currency + "/" + startDate + "/" + endDate + "/";
+                var url = "/" + (source === "api" ? "cotacao" : "cotacao-armazenada") + "/" + currency + "/" + startDate + "/" + endDate + "/";
                 window.location.href = url;
             }
         }

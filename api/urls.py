@@ -1,14 +1,32 @@
 from django.urls import path
-from .views import IndexView, ExchangeRateView
+
+from .views import IndexView, ExchangeRateView, StoredExchangeRateView
+
 
 urlpatterns = [
-    path('cotacao/', 
-        IndexView.as_view(), 
-        name='index'),
-    path('cotacao/<str:currency>/<str:start_date>/',
+    path(
+        'cotacao/',
+        IndexView.as_view(),
+        name='index'
+    ),
+    path(
+        'cotacao/<str:currency>/<str:start_date>/',
         ExchangeRateView.as_view(),
-        name='cotacao'),
-    path('cotacao/<str:currency>/<str:start_date>/<str:end_date>/',
+        name='cotacao'
+    ),
+    path(
+        'cotacao/<str:currency>/<str:start_date>/<str:end_date>/',
         ExchangeRateView.as_view(),
-        name='cotacao_por_intervalo'),
+        name='cotacao_por_intervalo'
+    ),
+    path(
+        'cotacao-armazenada/<str:currency>/<str:start_date>/',
+        StoredExchangeRateView.as_view(),
+        name='cotacao_armazenada'
+    ),
+    path(
+        'cotacao-armazenada/<str:currency>/<str:start_date>/<str:end_date>/',
+        StoredExchangeRateView.as_view(),
+        name='cotacao_armazenada_por_intervalo'
+    ),
 ]
